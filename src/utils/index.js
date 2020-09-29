@@ -30,7 +30,7 @@ export function normalizeRoom(room) {
             host: room.host ? {
                 email: room.host.email || '',
                 fullname: room.host.fullname || '',
-                avatar: room.host.avatar || '',
+                avatar: room.host.image || '',
             } : {
                 email: '',
                 fullname: '',
