@@ -53,7 +53,7 @@ export const AppNavigator = StackNavigator({
   Main: {
     screen: MainScreen,
     navigationOptions: {
-      title: 'Code4Startup',
+      header: null,
     }
   },
   Detail: {
