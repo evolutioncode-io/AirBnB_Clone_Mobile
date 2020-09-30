@@ -8,15 +8,20 @@ import {
   Text,
   Image,
   Dimensions,
+  View,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { navigate } from '../../actions/nav';
 import { getRooms } from '../../actions/room';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  list: {
     padding: 20,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   item: {
     backgroundColor: 'white',
@@ -33,7 +38,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     color: '#555',
-  }
+  },
+  filter: {
+    padding: 13,
+    backgroundColor: '#007B7F',
+  },
+  filterButton: {
+    backgroundColor: '#2F868E',
+    flexDirection: 'row',
+    padding: 10,
+    borderRadius: 3,
+    alignItems: 'center',
+  },
+  filterText: {
+    color: 'white',
+    fontSize: 16,
+    marginLeft: 15,
+  },
 });
 
 class ExploreTab extends Component {
@@ -46,22 +67,37 @@ class ExploreTab extends Component {
     this.props.navigate({ routeName: "Room", params: { item: item } });
   }
 
+  onFilterPress() {
+    this.props.navigate({ routeName: 'Filter'});
+  }
+
   render() {
     const { rooms } = this.props;
     return (
-      <FlatList
-        style={styles.container}
-        data = { rooms }
-        renderItem={({item}) => 
-          <TouchableOpacity onPress={() => this.onPress(item)} style={styles.item}>
-            {/* Check This  */}
-            <Image style = {styles.image} source = {{uri: item.image}} />
-            <Text style = {styles.title}>{`$${item.price} ${item.instant ? '😜 ' : ''}${item.title}`}</Text>
-            <Text>{`${item.homeType} - ${item.bedRoom} bedroom(s)`}</Text>
+
+      <View style = { styles.container }>
+        <View style = {styles.filter}>
+          <TouchableOpacity style = {styles.filterButton} onPress = { () => this.onFilterPress() }>
+            <Icon size={30} name = 'ios-search-outline' color = 'white'></Icon>
+            <Text style = {styles.filterText}>Anywhere - AnyTime</Text>
           </TouchableOpacity>
-        }
-        keyExtractor={(item, index) => item.id}
-      />
+        </View>
+        <FlatList
+          style={styles.list}
+          data = { rooms }
+          renderItem={({item}) => 
+            <TouchableOpacity onPress={() => this.onPress(item)} style={styles.item}>
+              {/* Check This  */}
+              <Image style = {styles.image} source = {{uri: item.image}} />
+              <Text style = {styles.title}>{`$${item.price} ${item.instant ? '😜 ' : ''}${item.title}`}</Text>
+              <Text>{`${item.homeType} - ${item.bedRoom} bedroom(s)`}</Text>
+            </TouchableOpacity>
+          }
+          keyExtractor={(item, index) => item.id}
+        />
+      </View>
+
+     
     );
   }
 }
