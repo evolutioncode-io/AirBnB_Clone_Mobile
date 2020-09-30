@@ -9,6 +9,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { getRoom } from '../../actions/room';
 import room from '../../reducers/room';
@@ -16,6 +17,7 @@ import room from '../../reducers/room';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    marginBottom: 40,
   },
   image: {
     width: Dimensions.get('window').width,
@@ -34,6 +36,29 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 60,
   },
+  info: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  about: {
+    paddingBottom: 20,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E2E2',
+  },
+  aboutText: {
+    fontWeight: 'bold',
+  },
+  bookingBar: {
+    position: 'absolute',
+    bottom: 0,
+    padding: 15,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: '#E2E2E2',
+    backgroundColor: 'white',
+    alignItems: 'center',
+  },
 });
 
 class RoomScreen extends Component {
@@ -49,22 +74,53 @@ class RoomScreen extends Component {
 
     if (!room) return null; // return null if the room doesn't exists
 
-    const { image, host } = room;
+    const { image, host, bedRoom, bathRoom, accomodate, summary, price } = room;
     // image = room.image
     // host = room.host
 
     const item = this.props.navigation.state.params.item;
     return (
-      <ScrollView style = {styles.container}>
-        <Image source = {{uri: image}} style = {styles.image}></Image>
-        <View style = {{padding: 30}}>
-          <View style = {styles.row}>
-            <Text style = {{flex: 1}}>{`Hosted by ${host.fullname}`}</Text>
-            {/* Check this */}
-            <Image source={{uri: host.avatar}} style = {styles.avatar}/> 
+
+      <View style={{flex: 1}}>
+        <ScrollView style = {styles.container}>
+          <Image source = {{uri: image}} style = {styles.image}></Image>
+          <View style = {{padding: 30}}>
+
+            <View style = {styles.row}>
+              <Text style = {{flex: 1}}>{`Hosted by ${host.fullname}`}</Text>
+              {/* Check this */}
+              <Image source={{uri: host.avatar}} style = {styles.avatar}/> 
+            </View>
+
+            <View style = {styles.row}>
+              <View style = {styles.info}>
+                <Icon name='ios-people-outline' size={40}/>
+                <Text>{accomodate} guest(s)</Text>
+              </View>
+              <View style = {styles.info}>
+                <Icon name='ios-alarm-outline' size={40}/>
+                <Text>{bedRoom} bedroom(s)</Text>
+              </View>         
+              <View style = {styles.info}>
+                <Icon name='ios-home-outline' size={40}/>
+                <Text>{bathRoom} bathroom(s)</Text>
+              </View>
+            </View>
+
+            <View style = {styles.about}>
+              <Text style= {styles.aboutText}>About This Home</Text>
+              <Text>{summary}</Text>
+            </View>
+
           </View>
+        </ScrollView>
+
+        <View style={styles.bookingBar}>
+          <Text style={{ flex: 1 }}>
+            <Text style={{ fontWeight: 'bold' }}>{`${price}`}</Text> per night
+          </Text>
         </View>
-      </ScrollView>
+      </View> 
     );
   }
 }
