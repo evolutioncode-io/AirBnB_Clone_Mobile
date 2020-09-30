@@ -48,9 +48,9 @@ class FilterModal extends Component {
     constructor(props){
         super(props);
         this.state = {
-            address: '',
-            startDate: '',
-            endDate: '',
+            address: props.filter.address,
+            startDate: props.filter.startDate,
+            endDate: props.filter.endDate,
         }
     }
 
@@ -144,7 +144,7 @@ class FilterModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  
+  filter: state.room.filter,
 });
 
 const mapDispatchToProps = dispatch => ({
