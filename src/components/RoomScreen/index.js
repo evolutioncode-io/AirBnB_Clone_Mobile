@@ -1,4 +1,4 @@
-
+// All this code is for when you clicked at one room 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -10,6 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GodzillaButton from '../shared/GodzillaButton';
 
 import { getRoom } from '../../actions/room';
 import room from '../../reducers/room';
@@ -119,6 +120,12 @@ class RoomScreen extends Component {
           <Text style={{ flex: 1 }}>
             <Text style={{ fontWeight: 'bold' }}>{`${price}`}</Text> per night
           </Text>
+          <GodzillaButton
+            onPress = { () => {alert("Check Availability")} }
+            backgroundColor = '#FF5A60'
+            textColor = 'white'
+            label = 'Check Availability'
+          />
         </View>
       </View> 
     );
