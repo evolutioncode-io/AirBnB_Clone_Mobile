@@ -11,6 +11,7 @@ import {
   DatePickerAndroid,
 } from 'react-native';
 
+import GodzillaButton from '../shared/GodzillaButton';
 import { login, logout } from '../../actions/user';
 
 const styles = StyleSheet.create({
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
   datePicker: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 40,
   },
   datePickerButton: {
     flex: 1,
@@ -98,6 +100,10 @@ class FilterModal extends Component {
           }
     }
 
+    onSearch(){
+
+    }
+
   render() {
     
     return (
@@ -125,6 +131,13 @@ class FilterModal extends Component {
                 <Text style = {styles.datePickerText}>{this.state.endDate || 'End Date'}</Text>
             </TouchableOpacity>
         </View>
+
+        <GodzillaButton 
+            onPress = { () => this.onSearch()}
+            backgroundColor = '#2F868E'
+            textColor = '#E2E2E2'
+            label = 'Search'
+        ></GodzillaButton>
       </ScrollView>
     );
   }
