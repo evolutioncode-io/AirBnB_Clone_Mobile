@@ -9,7 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.facebook.CallBackManager;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class MainApplication extends Application implements ReactApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
-  protected static CallBackManager getCallbackManager(){
+  protected static CallbackManager getCallbackManager(){
     return mCallbackManager;
   }
 
