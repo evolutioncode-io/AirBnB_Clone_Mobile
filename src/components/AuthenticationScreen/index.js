@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { loginWithFacebook } from '../../actions/user';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import { resetRoute } from '../../actions/nav';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +44,13 @@ const styles = StyleSheet.create({
 });
 
 class AuthenticationScreen extends Component {
+
+  componentWillMount(){
+    const { resetRoute, accessToken} = this.props;
+    if(accessToken){
+      resetRoute({ routeName: 'Main'}); // if u close the app or reload, you will be redirected to the main screen
+    }                                    // without logout
+  }
 
   onFBAuth() {
       console.log('Facebook Login') // debug
@@ -85,7 +93,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loginWithFacebook: (facebookAccessToken) => dispatch(loginWithFacebook(facebookAccessToken))
+  loginWithFacebook: (facebookAccessToken) => dispatch(loginWithFacebook(facebookAccessToken)),
+  resetRoute: (route) => dispatch(resetRoute(route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationScreen);

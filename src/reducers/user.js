@@ -31,11 +31,13 @@ export default function(state = initialState, action) {
     }
   }
 
-  if (action.type === REHYDRATE) {
+  if (action.type === REHYDRATE) { // This save the information
     const savedUser = action.payload.user || state;
     return {
       ...state,
       accessToken: savedUser.accessToken,
+      profile: savedUser.profile,
+      payment: savedUser.payment,
     };
   }
 
