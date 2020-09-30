@@ -7,6 +7,8 @@ import {
   ScrollView,
   Text,
   TextInput,
+  TouchableOpacity,
+  DatePickerAndroid,
 } from 'react-native';
 
 import { login, logout } from '../../actions/user';
@@ -23,6 +25,19 @@ const styles = StyleSheet.create({
   },
   addressInput: {
       color: '#E2E2E2',
+      marginBottom: 40,
+  },
+  datePicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  datePickerButton: {
+    flex: 1,
+  },
+  datePickerText: {
+    fontSize: 20,
+    textAlign: 'center',
+    color : '#E2E2E2',
   },
 });
 
@@ -32,7 +47,55 @@ class FilterModal extends Component {
         super(props);
         this.state = {
             address: '',
+            startDate: '',
+            endDate: '',
         }
+    }
+
+    onStartDateChange = async () => {
+        try {
+            const {
+              action,
+              year,
+              month,
+              day
+            } = await DatePickerAndroid.open({
+              // Use `new Date()` for current date.
+              // May 25 2020. Month 0 is January.
+              //date: new Date(2020, 4, 25)
+              minDate: new Date(),
+              date: new Date()
+            });
+            if (action !== DatePickerAndroid.dismissedAction) {
+              // Selected year, month (0-11), day
+              this.setState({startDate: `${day}-${month + 1}-${year}`}); // get the data when select from calendar
+            }
+          } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+          }
+    }
+
+    onEndDateChange = async () => {
+        try {
+            const {
+              action,
+              year,
+              month,
+              day
+            } = await DatePickerAndroid.open({
+              // Use `new Date()` for current date.
+              // May 25 2020. Month 0 is January.
+              //date: new Date(2020, 4, 25)
+              minDate: new Date(),
+              date: new Date()
+            });
+            if (action !== DatePickerAndroid.dismissedAction) {
+              // Selected year, month (0-11), day
+              this.setState({endDate: `${day}-${month + 1}-${year}`}); // get the data when select from calendar
+            }
+          } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+          }
     }
 
   render() {
@@ -46,6 +109,22 @@ class FilterModal extends Component {
             value = {this.state.address}
             onChangeText = {address => this.setState({address})}
         ></TextInput>
+
+        <View style = {styles.datePicker}>
+            <TouchableOpacity
+                style = {styles.datePickerButton}
+                onPress = { () => this.onStartDateChange() }>
+                <Text style = {styles.datePickerText}>{this.state.startDate || 'Start Date'}</Text>
+            </TouchableOpacity>
+
+            <Text style = {[styles.datePickerText, {flex: 1}]}>to</Text>
+
+            <TouchableOpacity
+                style = {styles.datePickerButton}
+                onPress = { () => this.onEndDateChange() }>
+                <Text style = {styles.datePickerText}>{this.state.endDate || 'End Date'}</Text>
+            </TouchableOpacity>
+        </View>
       </ScrollView>
     );
   }
