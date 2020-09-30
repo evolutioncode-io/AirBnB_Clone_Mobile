@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 
 import GodzillaButton from '../shared/GodzillaButton';
-import { login, logout } from '../../actions/user';
+import { setFilter, getRooms } from '../../actions/room';
+import { goBack } from '../../actions/nav';
 
 const styles = StyleSheet.create({
   container: {
@@ -101,7 +102,12 @@ class FilterModal extends Component {
     }
 
     onSearch(){
-
+      // Step 1: set filter  setFilter()
+      this.props.setFilter(this.state);
+      // Step 2: Go back ExploreTab
+      this.props.goBack();
+      // Step 3: Get new list of rooms based on search criteria
+      this.props.getRooms();
     }
 
   render() {
@@ -148,7 +154,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  
+  setFilter: (filter) => dispatch(setFilter(filter)),
+  getRooms: () => dispatch(getRooms()),
+  goBack: () => dispatch(goBack())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterModal);

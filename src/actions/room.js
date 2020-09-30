@@ -27,8 +27,9 @@ export function setFilter(filter){
 }
 
 export function getRooms(){
-    return (dispatch) => {
-        return fetch(`${HOST}/api/v1/rooms`)
+    return (dispatch, getState) => {
+        const filter = getState().room.filter;
+        return fetch(`${HOST}/api/v1/rooms?address=${filter.address}&start_date=${filter.startDate}&end_date=${filter.endDate}`)
         .then(response => response.json())
         .then(json => {
             console.log("getRooms", json); //To debug to see what data get from server

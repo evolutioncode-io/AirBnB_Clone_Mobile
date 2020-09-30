@@ -72,14 +72,16 @@ class ExploreTab extends Component {
   }
 
   render() {
-    const { rooms } = this.props;
+    const { rooms, filter } = this.props;
     return (
 
       <View style = { styles.container }>
         <View style = {styles.filter}>
           <TouchableOpacity style = {styles.filterButton} onPress = { () => this.onFilterPress() }>
             <Icon size={30} name = 'ios-search-outline' color = 'white'></Icon>
-            <Text style = {styles.filterText}>Anywhere - AnyTime</Text>
+            <Text style = {styles.filterText}>
+              {`${filter.address || 'Anywhere'} - ${filter.startDate && filter.endDate ? `${filter.startDate} to ${filter.endDate}` : 'Anytime' }`}
+            </Text>
           </TouchableOpacity>
         </View>
         <FlatList
@@ -103,7 +105,8 @@ class ExploreTab extends Component {
 }
 
 const mapStateToProps = state => ({
-  rooms: state.room.rooms
+  rooms: state.room.rooms,
+  filter: state.room.filter
 });
 
 const mapDispatchToProps = dispatch => ({
