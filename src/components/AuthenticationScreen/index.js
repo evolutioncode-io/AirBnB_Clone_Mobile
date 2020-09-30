@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { login, logout } from '../../actions/user';
+import { loginWithFacebook } from '../../actions/user';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 const styles = StyleSheet.create({
@@ -48,13 +48,15 @@ class AuthenticationScreen extends Component {
       console.log('Facebook Login') // debug
       // Attempt a login using the Facebook login dialog asking for default permissions.
       LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
-        function(result) {
+        //function(result) {
+          (result) => {
           if (result.isCancelled) {
             alert('Login cancelled');
           } else {
             AccessToken.getCurrentAccessToken()
             .then(data => {
-              alert(data.accessToken.toString())
+              //alert(data.accessToken.toString())
+              this.props.loginWithFacebook(data.accessToken.toString())
             })
           }
         },
@@ -83,8 +85,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: (name) => dispatch(login(name)),
-  logout: () => dispatch(logout()),
+  loginWithFacebook: (facebookAccessToken) => dispatch(loginWithFacebook(facebookAccessToken))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationScreen);
