@@ -11,6 +11,7 @@ import RoomScreen from '../components/RoomScreen';
 import AuthenticationScreen from '../components/AuthenticationScreen';
 import FilterModal from '../components/FilterModal';
 import BookingModal from '../components/BookingModal';
+import CalendarModal from '../components/CalendarModal';
 
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -54,9 +55,24 @@ export const MainScreen = TabNavigator({
   },
 }, tabConfig);
 
+export const CalendarStack = StackNavigator({
+  CalendarTab: {
+    screen: CalendarTab,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  CalendarModal: {
+    screen: CalendarModal,
+    navigationOptions: (props) => ({
+      title: props.navigation.state.params.item.title,
+    })
+  },
+});
+
 export const HostScreen = TabNavigator({
   Calendar: {
-    screen: CalendarTab, 
+    screen: CalendarStack, 
     navigationOptions: { 
       tabBarLabel: 'CALENDAR', 
       tabBarIcon: ({focused, tintColor}) => <Icon name={'ios-calendar-outline'} size={30} color={tintColor}/>
