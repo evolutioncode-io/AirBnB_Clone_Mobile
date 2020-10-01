@@ -11,6 +11,8 @@ import {
 import Dates from 'react-native-dates';
 import moment from 'moment';
 
+import { bookRoom } from '../../actions/room';
+
 import GodzillaButton from '../shared/GodzillaButton';
 
 
@@ -35,7 +37,11 @@ class BookingModal extends Component {
     }
 
     onBooking(){
-      
+      const { bookRoom, room} = this.props;
+      const startDate = this.state.startDate.format('YYYY-MM-DD');
+      const endDate = this.state.endDate.format('YYYY-MM-DD');
+
+      bookRoom(room.id, startDate, endDate);
     }
 
   render() {
@@ -62,7 +68,7 @@ class BookingModal extends Component {
           />
         </View>
         <GodzillaButton 
-            onPress = { () => this.onSearch()}
+            onPress = { () => this.onBooking()}
             backgroundColor = {!this.state.startDate ? 'rgba(47, 134, 142, 0.2)' : '#2F868E' } 
             textColor = {!this.state.startDate ? 'rgba(226, 226, 226, 0.2)' : '#E2E2E2' }
             label = 'Book'
@@ -78,7 +84,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  
+  bookRoom: (roomId, startDate, endDate) => dispatch(bookRoom(roomId, startDate, endDate)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);
