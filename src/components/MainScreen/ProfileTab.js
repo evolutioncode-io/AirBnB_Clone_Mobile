@@ -11,6 +11,16 @@ import {
 } from 'react-native';
 
 import { logout } from '../../actions/user';
+import stripe from 'tipsi-stripe';
+
+stripe.init({
+  publishableKey: 'pk_test_51HTYAWBg8mCs9xMbq8aUaH7ejcNt1OIunRiGFoOBLWXFR1PhTLXiAmSw9kUfWu9SAmEx1z5wGN6XwNDZ49UAHMXC00ORVSBwBh',
+});
+
+const options = {
+  smsAutofillDisabled: true,
+  requiredBillingAddressFields: 'full',
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -44,8 +54,9 @@ const styles = StyleSheet.create({
 
 class ProfileTab extends Component {
 
-  addPayment(){
-
+  addPayment = async() => {
+    const token = await stripe.paymentRequestWithCardForm(options);
+    console.log(token);
   }
 
   switchType(){
@@ -54,7 +65,7 @@ class ProfileTab extends Component {
 
   render() {
     const profile = this.props.profile || {}
-    
+    const payment = this.props.payment;
     
     return (
       <ScrollView style = {styles.container}>
@@ -63,8 +74,9 @@ class ProfileTab extends Component {
           <Image style = {styles.avatar} source = {{ uri: profile.avatar }}></Image>
         </View>
 
-        <TouchableOpacity onPress = {() => this.addPayment()} style = {styles.menuButton}>
-          <Text>Add Your Payment</Text>
+        <TouchableOpacity onPress = {() => this.addPayment().catch(e => console.log(e))}
+         style = {styles.menuButton}>
+          <Text>{`${payment ? 'Update' : 'Add'}`} Your Payment</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress = {() => this.switchType()} style = {styles.menuButton}>
@@ -82,6 +94,7 @@ class ProfileTab extends Component {
 
 const mapStateToProps = state => ({
   profile: state.user.profile,
+  payment: state.user.payment,
 });
 
 const mapDispatchToProps = dispatch => ({
