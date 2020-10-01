@@ -1,5 +1,6 @@
 import { HOST } from '../constants';
 import { normalizeRooms, normalizeReservations} from '../utils';
+import { AccessToken } from 'react-native-fbsdk';
 
 
 export const SET_LISTINGS = 'SET_LISTINGS';
@@ -46,6 +47,35 @@ export function getReservations(roomId) {
             if (json.is_success) {
                 console.log(json);
                 dispatch(setReservations(normalizeReservations(json.reservations)));
+            } else {
+                alert(json.error);
+            }
+        })
+        .catch(e => alert(e));
+    }
+}
+
+export function changeReservation(roomId, reservationId, approve) {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.accessToken;
+        var url = `${HOST}/api/v1/reservations/${reservationId}/`;
+        if (approve) {
+            url += 'approve';
+        } else {
+            url += 'decline';
+        }
+
+        return fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                access_token: accessToken,
+            }),
+            headers: { "content-type": "application/json"}
+        })
+        .then(response => response.json())
+        .then(json => {
+            if (json.is_success) {
+                dispatch(getReservations(roomId));
             } else {
                 alert(json.error);
             }
