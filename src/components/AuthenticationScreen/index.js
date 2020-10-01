@@ -48,7 +48,7 @@ class AuthenticationScreen extends Component {
   componentWillMount(){
     const { resetRoute, accessToken} = this.props;
     if(accessToken){
-      resetRoute({ routeName: 'Main'}); // if u close the app or reload, you will be redirected to the main screen
+      resetRoute({ routeName: 'Host'}); // if u close the app or reload, you will be redirected to the main screen
     }                                    // without logout
   }
 
