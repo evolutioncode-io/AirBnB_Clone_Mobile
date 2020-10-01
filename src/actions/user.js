@@ -2,6 +2,7 @@ import { HOST } from '../constants';
 import { resetRoute } from './nav';
 import { normalizeProfile } from '../utils'
 import { BackHandler } from 'react-native';
+import { AccessToken } from 'react-native-fbsdk';
 
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 export const SET_PROFILE = 'SET_PROFILE';
@@ -64,5 +65,31 @@ export function logout() {
     fetch(`${HOST}/api/v1/logout?access_token=${accessToken}`)
     .then(response => BackHandler.exitApp())
     .catch(e => BackHandler.exitApp());
+  };
+}
+
+export function addPayment(stripeToken) {
+  return (dispatch, getState) => {
+    const accessToken = getState().user.accessToken;
+
+    return fetch(`${HOST}/api/v1/payments`, {
+      method: 'POST',
+      body: JSON.stringify({
+        stripe_token: stripeToken,
+        access_token: accessToken,
+      }),
+      headers: {
+        "content-type": "application/json",
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (json.is_success){
+        dispatch(setPayment(true));
+      } else {
+        alert(json.error);
+      }
+    })
+    .catch(e => alert(e));
   };
 }

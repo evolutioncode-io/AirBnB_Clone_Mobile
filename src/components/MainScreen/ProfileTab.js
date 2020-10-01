@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { logout } from '../../actions/user';
+import { logout, addPayment } from '../../actions/user';
 import stripe from 'tipsi-stripe';
 
 stripe.init({
@@ -56,7 +56,8 @@ class ProfileTab extends Component {
 
   addPayment = async() => {
     const token = await stripe.paymentRequestWithCardForm(options);
-    console.log(token);
+    //console.log(token);
+    this.props.addPayment(token.tokenId);
   }
 
   switchType(){
@@ -99,6 +100,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
+  addPayment: (stripeToken) => dispatch(addPayment(stripeToken)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileTab);
