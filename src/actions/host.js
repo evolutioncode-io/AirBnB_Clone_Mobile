@@ -1,13 +1,21 @@
 import { HOST } from '../constants';
-import { normalizeRooms } from '../utils';
-import { SET_PAYMENT } from './user';
+import { normalizeRooms, normalizeReservations} from '../utils';
+
 
 export const SET_LISTINGS = 'SET_LISTINGS';
+export const SET_RESERVATIONS = 'SET_RESERVATIONS';
 
 export function setListings(rooms) {
     return {
         type: SET_LISTINGS,
         rooms,
+    }
+}
+
+export function setReservations(reservations) {
+    return {
+        type: SET_RESERVATIONS,
+        reservations,
     }
 }
 
@@ -20,6 +28,24 @@ export function getListings() {
         .then(json => {
             if (json.is_success) {
                 dispatch(setListings(normalizeRooms(json.rooms)));
+            } else {
+                alert(json.error);
+            }
+        })
+        .catch(e => alert(e));
+    }
+}
+
+export function getReservations(roomId) {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.accessToken;
+
+        return fetch(`${HOST}/api/v1/rooms/${roomId}/reservations?access_token=${accessToken}`)
+        .then(response => response.json())
+        .then(json => {
+            if (json.is_success) {
+                console.log(json);
+                dispatch(setReservations(normalizeReservations(json.reservations)));
             } else {
                 alert(json.error);
             }

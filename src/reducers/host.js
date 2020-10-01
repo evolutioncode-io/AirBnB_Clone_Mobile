@@ -1,7 +1,8 @@
-import { SET_LISTINGS } from '../actions/host';
+import { SET_LISTINGS, SET_RESERVATIONS } from '../actions/host';
 
 const initialState = {
     listings: [],
+    reservations: [],
 };
 
 export default function(state = initialState, action){
@@ -12,5 +13,12 @@ export default function(state = initialState, action){
         }
     }
 
+    if (action.type === SET_RESERVATIONS) {
+        return {
+            ...state,
+            reservations: action.reservations
+        }
+    }
+
     return state;
-}
+};
