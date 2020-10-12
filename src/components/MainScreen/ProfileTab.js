@@ -73,7 +73,9 @@ class ProfileTab extends Component {
 
   render() {
     const profile = this.props.profile || {}
-    const { payment, firstRouteName }  = this.props.payment;
+    //const { payment, firstRouteName }  = this.props.payment;
+    const firstRouteName = this.props.firstRouteName;
+    const payment = this.props.payment;
     
     return (
       <ScrollView style = {styles.container}>
@@ -82,8 +84,9 @@ class ProfileTab extends Component {
           <Image style = {styles.avatar} source = {{ uri: profile.avatar }}></Image>
         </View>
 
-        <TouchableOpacity onPress = {() => this.addPayment().catch(e => console.log(e))}
-         style = {styles.menuButton}>
+        <TouchableOpacity 
+         onPress = {() => this.addPayment().catch(e => console.log(e))}
+         style = {styles.menuButton} >
           <Text>{`${payment ? 'Update' : 'Add'}`} Your Payment</Text>
         </TouchableOpacity>
 
