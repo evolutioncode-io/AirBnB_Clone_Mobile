@@ -69,7 +69,7 @@ class CalendarTab extends Component {
           renderItem={({item}) => 
             <TouchableOpacity onPress={() => this.onPress(item)} style={styles.item}>
               {/* Check This  */}
-              <Image style = {styles.image} source = {{uri: item.image}} />
+              <Image style = {styles.image} source = {{uri: 'https://www.aveliving.com/AVE/media/Property_Images/Florham%20Park/hero/flor-apt-living-(2)-hero.jpg?ext=.jpg'}} />
               <Text style = {styles.title}>{`$${item.price} ${item.instant ? '😜 ' : ''}${item.title}`}</Text>
               <Text>{`${item.homeType} - ${item.bedRoom} bedroom(s)`}</Text>
             </TouchableOpacity>

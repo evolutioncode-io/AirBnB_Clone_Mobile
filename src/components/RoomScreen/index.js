@@ -89,13 +89,13 @@ class RoomScreen extends Component {
 
       <View style={{flex: 1}}>
         <ScrollView style = {styles.container}>
-          <Image source = {{uri: image}} style = {styles.image}></Image>
+          <Image source = {{uri: 'https://1-aegir0-camdenliving-com45.s3.amazonaws.com/community/camden-crown-valley/headers/camden-crown-valley-apartments-mission-viejo-ca-kitchen-and-living-room.jpg'}} style = {styles.image}></Image>
           <View style = {{padding: 30}}>
 
             <View style = {styles.row}>
               <Text style = {{flex: 1}}>{`Hosted by ${host.fullname}`}</Text>
               {/* Check this */}
-              <Image source={{uri: host.avatar}} style = {styles.avatar}/> 
+              <Image source={{uri: host.avatar || 'http://gravatar.com/avatar/leo@code4startup.com'}} style = {styles.avatar}/> 
             </View>
 
             <View style = {styles.row}>

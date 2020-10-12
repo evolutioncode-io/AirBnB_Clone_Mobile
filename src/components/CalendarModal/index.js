@@ -127,7 +127,7 @@ class CalendarModal extends Component {
                         <Text style = {{ color: 'white'}}>${reservation.total}</Text>
                         <Text style = {{ color: 'white'}}>${reservation.status.toUpperCase()}</Text>
                       </View>
-                      <Image style = {styles.avatar} source = {{ uri: reservation.guest.avatar}}></Image>
+                      <Image style = {styles.avatar} source = {{ uri: reservation.guest.avatar || 'http://gravatar.com/avatar/leo@code4startup.com'}}></Image>
                     </TouchableOpacity>
                   }
                 </View>
